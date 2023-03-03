@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Cookie, Depends, HTTPException, status
 from pydantic import BaseModel
 
-from chating.ai.blenderbot import msg_queue
-from chating.db import Session
-from chating.db.crud import *
-from chating.db.models import *
+from chatting.ai.blenderbot import msg_queue
+from chatting.db import Session
+from chatting.db.crud import *
+from chatting.db.models import *
 
 api_router = APIRouter(prefix="/api")
 

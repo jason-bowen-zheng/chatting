@@ -7,9 +7,9 @@ from fastapi import Cookie, FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from chating.api import api_router
-from chating.db.crud import *
-from chating.ai.blenderbot import generate_loop, msg_queue
+from chatting.api import api_router
+from chatting.db.crud import *
+from chatting.ai.blenderbot import generate_loop, msg_queue
 
 app = FastAPI(docs_url=None, redoc_url=None)
 app.include_router(api_router)

@@ -35,7 +35,7 @@ $(() => {
                     setTimeout(listenResponse, 2000)
                 } else {
                     $(".input-area input").removeAttr("disabled")
-                    $(".chat-area .ai:last .msg").text(data.msg)
+                    $(".chat-area .ai:last .msg").text(data.msg.trim())
                     $(".chat-area .ai.loading").removeClass("loading")
                 }
             }
@@ -47,7 +47,7 @@ $(() => {
         success: (data) => {
             for (let i = 0; i < data.length; ++i) {
                 who = ["mine", "ai"][i % 2]
-                $(".chat-area").append(`<div class="${who}"><img class="avatar" src="/static/${who}.png"><div class="msg">${data[i]}</div></div>`)
+                $(".chat-area").append(`<div class="${who}"><img class="avatar" src="/static/${who}.png"><div class="msg">${data[i].trim()}</div></div>`)
             }
 			if (data.length % 2 != 0) {
             	$(".input-area input").attr("disabled", "disabled")

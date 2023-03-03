@@ -1,7 +1,7 @@
 from queue import Queue
 from time import sleep
 
-from chating.db.crud import *
+from chatting.db.crud import *
 from transformers import (BlenderbotForConditionalGeneration,
                           BlenderbotTokenizerFast)
 
