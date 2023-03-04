@@ -22,7 +22,7 @@ def generate_loop():
                 if msg == "shutdown":
                     break
             else:
-                history = get_dialog(user_uuid)
+                history = get_dialog(user_uuid, False)
                 dialog = "</s> <s>".join([str(elem)
                                          for elem in history[len(history)-3:]])
                 input_ids = tokenizer(

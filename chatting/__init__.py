@@ -1,4 +1,5 @@
 from os import path
+from textwrap import dedent
 from threading import Thread
 from typing import Union
 from uuid import uuid4
@@ -7,13 +8,18 @@ from fastapi import Cookie, FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
+from chatting.ai.blenderbot import generate_loop, msg_queue
 from chatting.api import api_router
 from chatting.db.crud import *
-from chatting.ai.blenderbot import generate_loop, msg_queue
 
 app = FastAPI(docs_url=None, redoc_url=None)
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
+welcome_msg = dedent("""\
+    Welcome to use chatting! You can chat with blenderboot, a conversational AI.
+    Besides, you can use "/clear" to clear conversations.
+    Have a good time!\
+""").replace("\n", " ")
 
 
 @app.get("/")
@@ -21,9 +27,10 @@ def index(uuid: Union[str, None] = Cookie(default=None)):
     html = open(path.join(path.dirname(__file__), "index.html"), "r").read()
     response = HTMLResponse(html)
     if uuid is None:
-        user_id = uuid4().hex
-        new_user(user_id)
-        response.set_cookie("uuid", user_id, expires=3600 * 24)
+        user_uuid = uuid4().hex
+        new_user(user_uuid)
+        new_dialog(user_uuid, 1, welcome_msg, True)
+        response.set_cookie("uuid", user_uuid, expires=3600 * 24 * 3)
     return response
 
 

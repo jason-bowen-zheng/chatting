@@ -12,10 +12,15 @@ $(() => {
                 })
                 return
             }
-            $(".chat-area").append(`<div class="mine"><img class="avatar" src="/static/mine.png"><div class="msg">${user_input}</div></div>`)
-            $(".chat-area").append(`<div class="ai loading"><img class="avatar" src="/static/ai.png"><div class="msg">Loading...</div></div>`)
+            $(".chat-area").append(`<div class="mine">${user_input}</div>`)
+            $(".chat-area").append(`<div class="ai loading">Loading...</div>`)
             $(".input-area input").val("")
             $(".input-area input").attr("disabled", "disabled")
+            $(".input-area input").attr("placeholder", "Waiting for response...")
+            $(".chat-area *:last")[0].scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            })
             $.ajax({
                 url: "/api/new_msg",
                 method: "post",
@@ -35,8 +40,13 @@ $(() => {
                     setTimeout(listenResponse, 2000)
                 } else {
                     $(".input-area input").removeAttr("disabled")
-                    $(".chat-area .ai:last .msg").text(data.msg.trim())
+                    $(".input-area input").attr("placeholder", "Chatting...")
+                    $(".chat-area .ai:last").text(data.msg.trim())
                     $(".chat-area .ai.loading").removeClass("loading")
+                    $(".chat-area *:last")[0].scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    })
                 }
             }
         })
@@ -46,14 +56,14 @@ $(() => {
         url: "/api/get_history",
         success: (data) => {
             for (let i = 0; i < data.length; ++i) {
-                who = ["mine", "ai"][i % 2]
-                $(".chat-area").append(`<div class="${who}"><img class="avatar" src="/static/${who}.png"><div class="msg">${data[i].trim()}</div></div>`)
+                who = ["mine", "ai"][data[i].who % 2]
+                $(".chat-area").append(`<div class="${who}">${data[i].msg.trim()}</div>`)
             }
-			if (data.length % 2 != 0) {
-            	$(".input-area input").attr("disabled", "disabled")
-            	$(".chat-area").append(`<div class="ai loading"><img class="avatar" src="/static/ai.png"><div class="msg">Loading...</div></div>`)
-				listenResponse()
-			}
+            if ((data.length > 0) && (data[data.length - 1].who == 0)) {
+                $(".input-area input").attr("disabled", "disabled")
+                $(".chat-area").append(`<div class="ai loading">Loading</div>`)
+                listenResponse()
+            }
         }
     })
     $(".input-area input").keypress((event) => {

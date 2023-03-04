@@ -34,7 +34,7 @@ def get_history(uuid: str = Cookie(default="")):
         session.query(Dialog).filter(
             Dialog.uuid == uuid).update({"received": True})
         session.commit()
-        return get_dialog(uuid)
+        return get_dialog2(uuid)
 
 
 @api_router.get("/clear_history", dependencies=[Depends(verify_cookie)])

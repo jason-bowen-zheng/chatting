@@ -1,4 +1,5 @@
 * {
+    font-family: system-ui;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -13,7 +14,38 @@ body {
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding-bottom: 140px;
+    padding-bottom: 80px;
+}
+
+.chat-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0.75rem;
+}
+
+.ai {
+    background-color: #f9fafb;
+    max-width: 75%;
+    border-radius: 1em;
+    align-self: start;
+    margin-right: 1.75rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.ai.loading {
+    color: gray;
+}
+
+.mine {
+    color: white;
+    border-radius: 1em;
+    background-color: #2563eb;
+    max-width: 75%;
+    margin-left: 1.75rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
 }
 
 .input-area {
@@ -27,47 +59,10 @@ body {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    padding-right: 12px;
+    border: 1px solid #0000004d;
+    padding-right: 0.5rem;
     background: #FFF;
-    border-radius: 8px;
-}
-
-.ai {
-    position: relative;
-    padding: 20px 18px;
-    color: #d1d5db;
-    font-size: 15px;
-    display: flex;
-    background: #444654;
-    overflow-x: auto;
-    white-space: pre-wrap;
-}
-
-.ai.loading {
-    color: #8b8b8b;
-    font-weight: bold;
-}
-
-.mine {
-    padding: 20px 18px;
-    color: #d1d5db;
-    font-size: 14px;
-    display: flex;
-}
-
-.avatar {
-    flex-shrink: 0;
-    margin-right: 12px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
-
-.msg {
-    padding-top: 6px;
-    width: 100%;
-    white-space: pre-wrap;
+    border-radius: 1rem;
 }
 
 .input-area input {
@@ -81,7 +76,7 @@ body {
     font-size: 16px;
     width: 100%;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.7);
+    color: #000000b3;
 }
 
 .input-area .send-btn {
@@ -90,9 +85,9 @@ body {
     justify-content: center;
     width: 48px;
     height: 32px;
-    border-radius: 6px;
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0.7em;
+    color: #00000099;
+    background: #0000001a;
 }
 
 .input-area .send-btn:hover {
