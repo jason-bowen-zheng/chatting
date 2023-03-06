@@ -1,36 +1,43 @@
 $(() => {
     sendMsg = () => {
         let user_input = $(".input-area input").val()
-        if (user_input.length > 0) {
-            if (user_input == "/clear") {
-                $.ajax({
-                    url: "/api/clear_history",
-                    success: () => {
-                        $(".chat-area").html("")
-                        $(".input-area input").val("")
-                    }
-                })
-                return
-            }
-            $(".chat-area").append(`<div class="mine">${user_input}</div>`)
-            $(".chat-area").append(`<div class="ai loading">Loading...</div>`)
-            $(".input-area input").val("")
-            $(".input-area input").attr("disabled", "disabled")
-            $(".input-area input").attr("placeholder", "Waiting for response...")
-            $(".chat-area *:last")[0].scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            })
-            $.ajax({
-                url: "/api/new_msg",
-                method: "post",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    msg: user_input
-                })
-            })
-            listenResponse()
-        }
+        if (user_input.length == 0) return
+		if (user_input[0] == "/") {
+			if (user_input.substring(1) == "clear") {
+				$.ajax({
+					url: "/api/clear_history",
+					success: () => {
+						$(".chat-area").html("")
+						$(".input-area input").val("")
+					}
+				})
+			} else {
+				msg = `No command "${user_input}" found.\n`
+				msg+= "The following commands are supported:\n"
+				msg+= "/clear: clear conversations"
+				alert(msg)
+				$(".input-area input").val("")
+			}
+			return
+		}
+		$.ajax({
+			url: "/api/new_msg",
+			method: "post",
+			contentType: "application/json",
+			data: JSON.stringify({
+				msg: user_input
+			})
+		})
+		$(".chat-area").append(`<div class="mine">${user_input}</div>`)
+		$(".chat-area").append(`<div class="ai loading">Loading...</div>`)
+		$(".input-area input").val("")
+		$(".input-area input").attr("disabled", "disabled")
+		$(".input-area input").attr("placeholder", "Waiting for response...")
+		$(".chat-area *:last")[0].scrollIntoView({
+			behavior: "smooth",
+			block: "start"
+		})
+		listenResponse()
     }
     listenResponse = () => {
         $.ajax({
